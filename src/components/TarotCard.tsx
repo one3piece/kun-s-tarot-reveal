@@ -14,12 +14,6 @@ const sizes = {
   lg: "w-52 h-72 text-base",
 };
 
-const emojiSizes = {
-  sm: "text-2xl",
-  md: "text-4xl",
-  lg: "text-6xl",
-};
-
 export default function TarotCard({
   card,
   isFlipped = false,
@@ -50,7 +44,7 @@ export default function TarotCard({
           <div className="absolute inset-4 rounded border border-secondary/10" />
           {/* Center symbol */}
           <div className="relative flex flex-col items-center gap-1">
-            <span className={emojiSizes[size]}>🔮</span>
+            <span className={size === "sm" ? "text-2xl" : size === "md" ? "text-4xl" : "text-6xl"}>🔮</span>
             {size !== "sm" && (
               <span className="text-primary/60 font-display text-[10px] tracking-widest uppercase">
                 Kun Tarot
@@ -69,22 +63,44 @@ export default function TarotCard({
           }`}
           style={{ background: card.gradient }}
         >
-          <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center">
-            <span className={`${emojiSizes[size]} mb-1 drop-shadow-lg`}>
-              {card.emoji}
-            </span>
+          {/* Card image with 3D depth */}
+          <div className="absolute inset-0">
+            <img
+              src={card.image}
+              alt={card.title}
+              className="w-full h-full object-cover"
+            />
+            {/* Gradient overlay for text readability */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, transparent 60%)`,
+              }}
+            />
+            {/* Top shine effect for 3D depth */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.2) 100%)",
+              }}
+            />
+          </div>
+
+          {/* Text content */}
+          <div className="relative w-full h-full flex flex-col items-center justify-end p-3 text-center z-10">
             <h3
               className="font-bold drop-shadow-lg"
-              style={{ color: "white", textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
+              style={{ color: "white", textShadow: "0 2px 10px rgba(0,0,0,0.8)" }}
             >
               {card.title}
             </h3>
             {size !== "sm" && (
               <p
-                className="mt-1 opacity-80"
+                className="mt-1 opacity-90"
                 style={{
-                  color: "rgba(255,255,255,0.85)",
-                  fontSize: size === "lg" ? "0.875rem" : "0.7rem",
+                  color: "rgba(255,255,255,0.9)",
+                  fontSize: size === "lg" ? "0.75rem" : "0.6rem",
+                  textShadow: "0 1px 4px rgba(0,0,0,0.8)",
                 }}
               >
                 {card.subtitle}
